@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <!-- NAVBAR -->
@@ -163,7 +164,82 @@
 <footer class="footer">
   <span>© 2026 ParityBit Trace. All rights reserved.</span>
 </footer>
+<!-- CHATBOT -->
+<div class="chatbot-toggle" onclick="toggleChatbot()">💬</div>
 
+<div class="chatbot">
+  <div class="chatbot-header">
+    <span>ParityBit Assistant</span>
+    <button onclick="toggleChatbot()">✕</button>
+  </div>
+
+  <div class="chatbot-messages" id="chatMessages">
+    <div class="bot-msg">
+      👋 Hi! I’m the ParityBit Trace assistant.<br>
+      How can I help you today?
+    </div>
+  </div>
+
+  <div class="chatbot-input">
+    <input
+      type="text"
+      id="chatInput"
+      placeholder="Ask about breaches, OSINT, demos..."
+      onkeypress="handleEnter(event)"
+    />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+<script>
+  const chatbot = document.querySelector(".chatbot");
+  const messages = document.getElementById("chatMessages");
+  const input = document.getElementById("chatInput");
+
+  function toggleChatbot() {
+    chatbot.style.display =
+      chatbot.style.display === "flex" ? "none" : "flex";
+  }
+
+  function handleEnter(e) {
+    if (e.key === "Enter") sendMessage();
+  }
+
+  function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    setTimeout(() => {
+      botReply(text);
+    }, 600);
+  }
+
+  function addMessage(text, sender) {
+    const msg = document.createElement("div");
+    msg.className = sender === "user" ? "user-msg" : "bot-msg";
+    msg.innerText = text;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function botReply(userText) {
+    let reply =
+      "I can help with demos, breach intelligence features, or platform details.";
+
+    if (userText.toLowerCase().includes("demo")) {
+      reply = "You can request a private demo using the button above 🚀";
+    } else if (userText.toLowerCase().includes("breach")) {
+      reply =
+        "ParityBit Trace correlates leaked credentials, breach sources, and identity data in seconds.";
+    } else if (userText.toLowerCase().includes("pricing")) {
+      reply =
+        "Pricing is customized based on usage. Our team will guide you during the demo.";
+    }
+
+    addMessage(reply, "bot");
+  }
+</script>
 </body>
 </html>
-
